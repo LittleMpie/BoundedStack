@@ -35,14 +35,27 @@ public class BoundedStack {
 
         this.names = new ArrayList<>();
         this.number = number;
-        
-
-
-        
-    }
-
-    
-
-   
+        checkRep();       
     
 }
+
+
+    private void checkRep() {
+        assert names != null : "songs ต้องไม่เป็น null";
+
+        Set<String> seen = new HashSet<>();
+        for (String s : names ) {
+          assert s != null;
+          assert s != "";
+          assert seen.add(s) : "duplicate: " + s;}
+     
+
+
+          }
+
+
+}
+
+   
+
+
