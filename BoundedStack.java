@@ -81,8 +81,41 @@ public class BoundedStack {
         
     }
 
-    
+    public boolean contains(String song) {
+        
+        return names.contains(song) ;  
+    }
 
-   
+        // ===== Mutator =====
+
+
+       public int enqueue(String name) {
+            if (name == null || name.trim().isEmpty()) {
+        throw new IllegalArgumentException("ชื่อต้องไม่เป็นช่องว่าง");
+        }
+
+        String cleanedName = name.trim();
+            if (names.size() == capacity) return -1;
+            if (contains(cleanedName)) return -1;
+            names.add(cleanedName);
+            int ticket = nextQueue++;
+            checkRep();
+            return ticket;
+       }
+
+        public String dequeue() {
+            if (queue == 0) {
+            throw new NoSuchElementException("คิวว่าง ไม่มีลูกค้าให้เรียก"); }
+            String name = names.remove(0);
+            checkRep(); 
+            return name;
+
+           }
+
+        // ===== Observers =====
+
+        
+
+
     
 }
