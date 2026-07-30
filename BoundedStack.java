@@ -81,9 +81,9 @@ public class BoundedStack {
         
     }
 
-    public boolean contains(String song) {
+    public boolean contains(String name) {
         
-        return names.contains(song) ;  
+        return names.contains(name) ;  
     }
 
         // ===== Mutator =====
@@ -114,7 +114,34 @@ public class BoundedStack {
 
         // ===== Observers =====
 
-        
+        public String peek() {
+
+        if (names.isEmpty()) {
+            throw new NoSuchElementException("คิวว่าง");
+        }       
+        checkRep();
+        return names.get(0);
+    }
+
+       public int size(){
+            return queue ;
+       }
+        public boolean isEmpty() {
+        return queue == 0;
+      }
+
+      public boolean isFull() {
+        return queue == capacity;
+     }
+
+     public int capacity() {
+        return capacity;
+    }
+
+
+
+    
+
 
 
     
