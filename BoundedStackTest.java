@@ -83,18 +83,69 @@ public class BoundedStackTest{
 
      private static void testProducer() {
         System.out.println("\n-- Producer (shuffled) --");
+        
+        BoundedStack original = new BoundedStack(3);
+        BoundedStack shuffled =  original.shuffled();
 
         
+        check("shuffled has the same size", shuffled.size() == original.size());
+
+        List<String> a = new ArrayList<String>(original.names());
+        List<String> b = new ArrayList<String>(shuffled.names());
+        Collections.sort(a);
+        Collections.sort(b);
+        check("shuffled contains exactly the same songs", a.equals(b));
+          check("shuffled does not mutate the original",
+                original.names().equals(Arrays.asList("A", "B", "C", "D")));
+        // mutate ตัวใหม่ต้องไม่กระทบตัวเดิม
+        shuffled.enqueue("E");
+        check("mutating the result does not affect the original",
+                original.size() == 4);
+
+                 // boundary: shuffle เพลย์ลิสต์ว่างต้องไม่พัง
+        BoundedStack emptyShuffled = new BoundedStack(5).shuffled();
+        check("shuffling an empty playlist is safe", emptyShuffled.size() == 0);
+
 
 
      }
 
-     
+
      private static void testExposure() {
           System.out.println("\n-- Representation Exposure --");
+            // ขาออก
+                BoundedStack s = new BoundedStack(3);
+                s.enqueue("SomChai") ;
+                List<String> got = s.names();
+                got.clear();
+                check("clearing result of names() does not affect queue",
+                s.size() == 1);
 
+                got = s.names();
+                got.add("injected");
+                check("adding to result of names() does not affect queue",
+                s.size() == 1 && !s.contains("injected"));
+
+            // สองครั้งต้องเป็นคนละ object
+                 check("name() returns a fresh list each call",
+                s.names() != s.names());
+
+            // ขาเข้า: แก้ list ที่ส่งให้ constructor ต้องไม่กระทบ rep
+                  List<String> input = new ArrayList<>(Arrays.asList("A", "B"));
+                  BoundedStack s2 = new BoundedStack(input);
+
+                  input.clear();
+                  check("clearing constructor argument does not affect queue",
+                  s.size() == 2);
+
+                  input.add("injected");
+                  check("adding to constructor argument does not affect queue ",
+                  !s.contains("injected"));
+
+
+
+
+                
      }
-
-
 
 }
