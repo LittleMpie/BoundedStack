@@ -63,7 +63,10 @@ public class BoundedStack {
 
     
    
-
+    /**
+     * 
+     * @param capacity
+     */
     public BoundedStack( int capacity ){
         
         if (capacity <= 0 || capacity > MAX_NAMES) {
@@ -80,14 +83,23 @@ public class BoundedStack {
 
         
     }
-
+   /**
+    * ตรวจว่าชื่อนี้กำลังรออยู่ในคิวหรือไม่ 
+    * @param name = ชื่อลูกค้าที่ต้องการจะตรวจสอบ
+    * @return true เมื่อชื่อลูกค้าอยู่ในคิว false เมื่อชื่อลูกค้าเป็น null หรือช่องว่าง
+    */
     public boolean contains(String name) {
         
         return names.contains(name) ;  
     }
 
         // ===== Mutator =====
-
+        /**
+         * 
+         * @param name ต้องไม่เป็น null
+         * @throws IllgalArgumentException เมื่อชื่อเป็นช่องว่างหรือ null
+         * @return เลขคิว
+         */
 
        public int enqueue(String name) {
             if (name == null || name.trim().isEmpty()) {
@@ -103,9 +115,14 @@ public class BoundedStack {
             return ticket;
        }
 
+        /**
+         * เรียกคิวถัดไป — เอาคนหัวแถวออกจากคิวและคืนชื่อ
+         * @return ชื่อลูกค้า
+         * @throws IllgalArgumentException เมื่อคิวว่าง
+        */       
         public String dequeue() {
             if (queue == 0) {
-            throw new NoSuchElementException("คิวว่าง ไม่มีลูกค้าให้เรียก"); }
+            throw new IllegalArgumentException("คิวว่าง ไม่มีลูกค้าให้เรียก"); }
             String name = names.remove(0);
             checkRep(); 
             return name;
@@ -113,29 +130,34 @@ public class BoundedStack {
            }
 
         // ===== Observers =====
+        /**
+         * ดูว่าใครเป็นคิวถัดไป
+         * @return ชื่อลูกค้าปัจจุบัน
+         * @throws IllgalArgumentException เมื่อคิวว่าง
+         */
 
         public String peek() {
 
         if (names.isEmpty()) {
-            throw new NoSuchElementException("คิวว่าง");
+            throw new IllegalArgumentException("คิวว่าง");
         }       
         checkRep();
         return names.get(0);
-    }
+       }
 
        public int size(){
             return queue ;
        }
         public boolean isEmpty() {
-        return queue == 0;
+            return queue == 0;
+       }
+
+       public boolean isFull() {
+            return queue == capacity;
       }
 
-      public boolean isFull() {
-        return queue == capacity;
-     }
-
-     public int capacity() {
-        return capacity;
+      public int capacity() {
+             return capacity;
     }
 
 
