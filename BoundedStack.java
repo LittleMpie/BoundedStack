@@ -78,10 +78,32 @@ public class BoundedStack {
         this.nextQueue = 1 ;
         this.capacity = capacity ;
         checkRep();
-        
+           
+    }
+    
+    public BoundedStack(List<String> initialNames) {
+        if (initialNames == null || initialNames.size() > MAX_NAMES) {
+        throw new IllegalArgumentException("Invalid initial names list");
+    }
+        // Defensive Copy ขาเข้า ป้องกัน Input Rep Exposure
+        this.names = new ArrayList<>(initialNames);
+        this.capacity = MAX_NAMES;
+        this.nextQueue = this.names.size() + 1;
+        checkRep();
+    }
 
-
+    public BoundedStack shuffled() {
         
+        List<String> shuffledNames = new ArrayList<>(this.names);
+        Collections.shuffle(shuffledNames);
+        checkRep();
+        return new BoundedStack(shuffledNames); 
+
+    }
+
+    public List<String> names() { 
+        checkRep();
+        return new ArrayList<>(names); 
     }
    /**
     * ตรวจว่าชื่อนี้กำลังรออยู่ในคิวหรือไม่ 
