@@ -214,7 +214,7 @@ public class BoundedStackTest{
         List<String> b = new ArrayList<String>(shuffled.names());
         Collections.sort(a);
         Collections.sort(b);
-        check("shuffled contains exactly the same songs", a.equals(b));
+        check("shuffled contains exactly the same names", a.equals(b));
           check("shuffled does not mutate the original",
                 original.names().equals(Arrays.asList("Muay","BaiTong","JJ","Yokky")));
         // mutate ตัวใหม่ต้องไม่กระทบตัวเดิม
@@ -224,7 +224,7 @@ public class BoundedStackTest{
 
                  // boundary: shuffle เพลย์ลิสต์ว่างต้องไม่พัง
         BoundedStack emptyShuffled = new BoundedStack(5).shuffled();
-        check("shuffling an empty playlist is safe", emptyShuffled.size() == 0);
+        check("shuffling an empty queue is safe", emptyShuffled.size() == 0);
 
 
 

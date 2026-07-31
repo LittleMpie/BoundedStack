@@ -15,6 +15,7 @@ public class BoundedStack {
 
     private final List<String> names;
     public static final int MAX_NAMES = 150;
+    public static final int MAX_NAME_LENGTH = 20 ;
     private int nextQueue;
     private final int capacity;
 
@@ -39,13 +40,16 @@ public class BoundedStack {
     private void checkRep() {
         assert names != null;
         assert names.size() <= capacity;
+        assert capacity > 0 && capacity <= MAX_NAMES ;
+        assert nextQueue > 0 ;
 
         // Set<String> seen = new HashSet<>();
         Set<String> seen = new LinkedHashSet<>();
 
         for (String s : names) {
             assert s != null;
-            assert !(s.isEmpty());
+            assert !s.trim().isEmpty();
+            assert s.length() <= MAX_NAME_LENGTH;
             assert seen.add(s) : "duplicate" + s;
         }
 
@@ -115,8 +119,10 @@ public class BoundedStack {
     public boolean add(String name) {
         if (name == null || name.isEmpty())
             throw new IllegalArgumentException();
+        
         if (names.contains(name) || names.size() == capacity)
             return false;
+        
         names.add(name);
         checkRep();
         return true;
@@ -168,15 +174,15 @@ public class BoundedStack {
      *         หรือช่องว่าง
      */
     public boolean contains(String name) {
-
-        return names.contains(name);
+           if (name == null) return false;
+        return names.contains(name.trim());
     }
 
     // ===== Mutator =====
     /**
      * 
      * @param name ต้องไม่เป็น null
-     * @throws IllgalArgumentException เมื่อชื่อเป็นช่องว่างหรือ null
+     * @throws IllegalArgumentException เมื่อชื่อเป็นช่องว่างหรือ null
      * @return เลขคิว
      */
 
@@ -200,7 +206,7 @@ public class BoundedStack {
      * เรียกคิวถัดไป — เอาคนหัวแถวออกจากคิวและคืนชื่อ
      * 
      * @return ชื่อลูกค้า
-     * @throws IllgalArgumentException เมื่อคิวว่าง
+     * @throws IllegalArgumentException เมื่อคิวว่าง
      */
     public String dequeue() {
         if (names.isEmpty()) {
@@ -217,7 +223,7 @@ public class BoundedStack {
      * ดูว่าใครเป็นคิวถัดไป
      * 
      * @return ชื่อลูกค้าปัจจุบัน
-     * @throws IllgalArgumentException เมื่อคิวว่าง
+     * @throws IllegalArgumentException เมื่อคิวว่าง
      */
 
     public String peek() {
