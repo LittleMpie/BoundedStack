@@ -54,7 +54,53 @@ public class BoundedStackTest{
 
 
 
-     private static void testCreators(){}
+     private static void testCreators(){
+
+
+        System.out.println("-- Creators --");
+
+        BoundedStack empty = new BoundedStack(150);
+        check("new() -> empty", empty.size() == 0);
+        check("new() -> contains nothing", !empty.contains("anything"));
+
+        BoundedStack n = new BoundedStack(Arrays.asList("Baitong", "Muay", "JJ"));
+        check("new(list) -> size 3", n.size() == 3);
+        check("new(list) -> contains Baitong", n.contains("Baitong"));
+        check("new(list) -> preserves order",
+                n.names().equals(Arrays.asList("Baitong", "Muay", "JJ")));
+
+        // boundary: list ว่างคือขอบล่างที่ถูกต้อง
+        BoundedStack fromEmpty = new BoundedStack(new ArrayList<String>());
+        check("new(empty list) -> empty", fromEmpty.size() == 0);
+ 
+        // input ผิดโยน Exeption
+        boolean threwDup = false;
+        try {
+            new BoundedStack(Arrays.asList("Baitong", "Baitong"));
+        } catch (IllegalArgumentException e) {
+            threwDup = true;
+        }
+        check("new(duplicates) -> throws IllegalArgumentException", threwDup);
+
+        boolean threwNull = false;
+        try {
+            new BoundedStack(Arrays.asList("Baitong", null));
+        } catch (IllegalArgumentException e) {
+            threwNull = true;
+        }
+        check("new(list with null) -> throws IllegalArgumentException", threwNull);
+
+        boolean threwNullList = false;
+        try {
+            new BoundedStack(null);
+        } catch (IllegalArgumentException e) {
+            threwNullList = true;
+        }
+        check("new(null) -> throws IllegalArgumentException", threwNullList);
+
+
+
+     }
      private static void  testAdd() {}
      private static void testRemove() {}
 
@@ -63,12 +109,12 @@ public class BoundedStackTest{
      private static void testObservers() {
             System.out.println("\n-- Observers --");
             BoundedStack s = new BoundedStack (3);
-            s.enqueue("A");
-            s.enqueue("B");
-            check("peek -> returns front without removing", s.peek().equals("A"));
+            s.enqueue("Muay");
+            s.enqueue("Baitong");
+            check("peek -> returns front without removing", s.peek().equals("Muay"));
             check("peek -> size unchanged", s.size()==2 );
-            check("contains -> finds existing", s.contains("B"));
-            check("contains -> rejects missing", !s.contains("C"));
+            check("contains -> finds existing", s.contains("Baitong"));
+            check("contains -> rejects missing", !s.contains("JJ"));
 
         boolean threwPeekEmpty = false;
         try {
