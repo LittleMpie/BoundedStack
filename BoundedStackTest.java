@@ -151,9 +151,30 @@ public class BoundedStackTest{
 
 
      }
+
+      // --- Mutator: remove ทั้งกรณีพบและไม่พบ ---
      private static void testRemove() {
 
+    
+        System.out.println("\n-- Remove --");
 
+        BoundedStack n = new BoundedStack(Arrays.asList("Muay", "Baitong", "JJ"));
+        check("remove(Baitong) -> returns true", n.remove("Baitong"));
+        check("remove -> size decreases", n.size() == 2);
+        check("remove -> name is gone", !n.contains("Baitong"));
+        check("remove keeps the others in order",
+                n.names().equals(Arrays.asList("Muay", "JJ")));
+
+        // ลบรายชื่อ คืน false 
+        check("remove missing name-> returns false", !n.remove("nope"));
+        check("failed remove leaves size unchanged", n.size() == 2);
+
+        // boundary: ลบจนหมด
+        n.remove("Muay");
+        n.remove("JJ");
+        check("remove all -> empty", n.size() == 0);
+        check("remove on empty queue -> returns false", !n.remove("Muay"));
+    
 
      }
 
