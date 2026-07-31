@@ -101,6 +101,13 @@ public class BoundedStack {
         return true;   
     }
 
+    public boolean remove(String name) {
+        if(!names.contains(name)) return false;
+        names.remove(names); 
+        checkRep();
+        return true;   // แก้บรรทัดนี้
+    }
+
 
 
 
