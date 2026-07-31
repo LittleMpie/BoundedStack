@@ -23,10 +23,6 @@ public class BoundedStack {
     private final int capacity;
 
 
-
-
-
-
     //AF(names, queue ,head, nextQueue , capacity ) = รายชื่อคิวของลูกค้าที่ร้านชานมไข่มุก ตามลำดับ , หมายเลขคิวของลูกค้าคนปัจจุบัน , หัวคิว  , เลขคิวที่วิ่งไปเรื่อย ๆ , ความจุของคิว
 
 
@@ -80,7 +76,10 @@ public class BoundedStack {
         checkRep();
            
     }
-    
+    /**
+     * 
+     * @param initialNames
+     */
     public BoundedStack(List<String> initialNames) {
         if (initialNames == null || initialNames.size() > MAX_NAMES) {
         throw new IllegalArgumentException("Invalid initial names list");
@@ -92,6 +91,24 @@ public class BoundedStack {
         checkRep();
     }
 
+
+
+    public boolean add(String name) {
+        if(name== null || name == "") throw new IllegalArgumentException();
+        if(names.contains(name)||names.size()==MAX_NAMES)  return false;
+        names.add(name);
+        checkRep();
+        return true;   
+    }
+
+
+
+
+
+    /**
+     * 
+     * @return
+     */
     public BoundedStack shuffled() {
         
         List<String> shuffledNames = new ArrayList<>(this.names);
@@ -100,7 +117,10 @@ public class BoundedStack {
         return new BoundedStack(shuffledNames); 
 
     }
-
+    /**
+     * 
+     * @return
+     */
     public List<String> names() { 
         checkRep();
         return new ArrayList<>(names); 
