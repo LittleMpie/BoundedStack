@@ -60,9 +60,12 @@ public class BoundedStack {
     
    
     /**
-     * 
-     * @param capacity
-     */
+     สร้าง Queue ว่างและระบุขนาดความจุสูงสุด
+     *
+     * @param capacity ความจุสูงสุดของคิว ต้องมีค่าตั้งแต่ 1 ถึง MAX_NAMES
+     * @throws IllegalArgumentException ถ้า capacity น้อยกว่าหรือเท่ากับ 0 หรือมากกว่า MAX_NAMES
+     */ 
+
     public BoundedStack( int capacity ){
         
         if (capacity <= 0 || capacity > MAX_NAMES) {
@@ -76,10 +79,16 @@ public class BoundedStack {
         checkRep();
            
     }
-    /**
-     * 
-     * @param initialNames
+   
+
+     /**
+     * สร้างเคิวจากรายชื่อลูกค้าที่ให้มา
+     *
+     *
+     * @param initial รายชื่อลูกค้าเริ่มต้น ต้องไม่ซ้ำและไม่เกิน MAX_NAMES
+     * @throws IllegalArgumentException ถ้า initial ผิดเงื่อนไข
      */
+
     public BoundedStack(List<String> initialNames) {
         if (initialNames == null || initialNames.size() > MAX_NAMES) {
         throw new IllegalArgumentException("Invalid initial names list");
@@ -92,6 +101,14 @@ public class BoundedStack {
     }
 
 
+    // ===== Mutators =====
+
+    /**
+     *
+     * @param name ชื่อลูกค้า ต้องไม่เป็น null และไม่เป็นสตริงว่าง
+     * @return true ถ้าเพิ่มสำเร็จ, false ถ้ามีชื่อนี้อยู่แล้วหรือคิวเต็มแล้ว
+     * @throws IllegalArgumentException ถ้า name เป็น null หรือสตริงว่าง
+     */
 
     public boolean add(String name) {
         if(name== null || name == "") throw new IllegalArgumentException();
@@ -101,11 +118,17 @@ public class BoundedStack {
         return true;   
     }
 
+     /**
+     *
+     * @param name ชื่อลูกค้าที่ต้องการลบ
+     * @return true ถ้าลบสำเร็จ, false ถ้าไม่พบชื่อนี้
+     */
+
     public boolean remove(String name) {
         if(!names.contains(name)) return false;
         names.remove(names); 
         checkRep();
-        return true;   // แก้บรรทัดนี้
+        return true;  
     }
 
 
