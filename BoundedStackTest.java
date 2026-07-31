@@ -59,7 +59,7 @@ public class BoundedStackTest{
 
         System.out.println("-- Creators --");
 
-        BoundedStack empty = new BoundedStack(150);
+        BoundedStack empty = new BoundedStack(3);
         check("new() -> empty", empty.size() == 0);
         check("new() -> contains nothing", !empty.contains("anything"));
 
@@ -101,8 +101,61 @@ public class BoundedStackTest{
 
 
      }
-     private static void  testAdd() {}
-     private static void testRemove() {}
+     private static void  testAdd() {
+
+        System.out.println("\n-- Add --");
+
+        BoundedStack n = new BoundedStack(3);
+        check("add(Muay) -> returns true", n.add("Muay"));
+        check("add(Muay) -> size 1", n.size() == 1);
+        check("add(Muay) -> found by contains", n.contains("Muay"));
+
+        n.add("Baitong");
+        n.add("JJ");
+        check("add preserves insertion order",
+                n.names().equals(Arrays.asList("Muay", "Baitong", "JJ")));
+
+        // ชื่อซ้ำ คืน false 
+        check("add duplicate -> returns false", !n.add("Muay"));
+        check("failed add leaves size unchanged", n.size() == 3);
+
+        // input ที่ผิดเงื่อนไขโยน exception
+        boolean threwEmpty = false;
+        try {
+            n.add("");
+        } catch (IllegalArgumentException e) {
+            threwEmpty = true;
+        }
+        check("add(empty string) -> throws IllegalArgumentException", threwEmpty);
+
+        boolean threwNull = false;
+        try {
+            n.add(null);
+        } catch (IllegalArgumentException e) {
+            threwNull = true;
+        }
+        check("add(null) -> throws IllegalArgumentException", threwNull);
+
+        check("failed adds leave queue unchanged", n.size() == 3);
+
+        // boundary: เติมจนเต็มพอดีแล้วเติมเพิ่ม
+        BoundedStack full = new BoundedStack(BoundedStack.MAX_NAMES);
+        for (int i = 0; i < BoundedStack.MAX_NAMES; i++) {
+            full.add("Name" + i);
+        }
+        check("can fill up to MAX_NAMES", full.size() == BoundedStack.MAX_NAMES);
+        check("add when full -> returns false", !full.add("one more"));
+        check("full Queue stays at MAX_NAMES",
+                full.size() == BoundedStack.MAX_NAMES);
+
+
+
+     }
+     private static void testRemove() {
+
+
+
+     }
 
 
 
