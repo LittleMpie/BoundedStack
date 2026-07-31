@@ -204,7 +204,7 @@ public class BoundedStackTest{
      private static void testProducer() {
         System.out.println("\n-- Producer (shuffled) --");
         
-        BoundedStack original = new BoundedStack(3);
+        BoundedStack original = new BoundedStack(Arrays.asList("Muay","BaiTong","JJ","Yokky"));
         BoundedStack shuffled =  original.shuffled();
 
         
@@ -216,7 +216,7 @@ public class BoundedStackTest{
         Collections.sort(b);
         check("shuffled contains exactly the same songs", a.equals(b));
           check("shuffled does not mutate the original",
-                original.names().equals(Arrays.asList("A", "B", "C", "D")));
+                original.names().equals(Arrays.asList("Muay","BaiTong","JJ","Yokky")));
         // mutate ตัวใหม่ต้องไม่กระทบตัวเดิม
         shuffled.enqueue("E");
         check("mutating the result does not affect the original",
@@ -256,11 +256,11 @@ public class BoundedStackTest{
 
                   input.clear();
                   check("clearing constructor argument does not affect queue",
-                  s.size() == 2);
+                  s2.size() == 2);
 
                   input.add("injected");
                   check("adding to constructor argument does not affect queue ",
-                  !s.contains("injected"));
+                  !s2.contains("injected"));
 
 
 
